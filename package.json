@@ -1,0 +1,26 @@
+{
+  "name": "freshjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JonnyBoy2000/FreshJS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JonnyBoy2000/FreshJS/issues"
+  },
+  "homepage": "https://github.com/JonnyBoy2000/FreshJS#readme",
+  "dependencies": {
+    "ascii-table": "^0.0.9",
+    "discord.js": "^14.3.0",
+    "glob": "^8.0.3",
+    "mongoose": "^6.6.0"
+  }
+}
