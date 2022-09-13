@@ -16,7 +16,7 @@ module.exports = {
    */
   execute(interaction, client) {
     interaction.reply({
-      content: `Pong, took ${client.ws.ping}ms!`,
+      content: `Pong! Client ping is ${client.ws.ping}ms!`,
       ephemeral: true,
     });
   },

@@ -1,12 +1,18 @@
-const { EmbedBuilder, WebhookClient, GuildMember } = require("discord.js");
+const {
+  EmbedBuilder,
+  WebhookClient,
+  GuildMember,
+  Client,
+} = require("discord.js");
 
 module.exports = {
   name: "guildMemberAdd",
   /**
    *
    * @param {GuildMember} member
+   * @param {Client} client
    */
-  execute(member) {
+  execute(member, client) {
     if (member.guild.id == "678226695190347797") {
       member.roles.add("682572975010087045");
       const Welcomer = new WebhookClient({
@@ -15,19 +21,22 @@ module.exports = {
       });
 
       const Welcome = new EmbedBuilder()
-        .setColor("Aqua")
-        .setAuthor(
-          member.user.tag,
-          member.user.avatarURL({ dynamic: true, size: 512 })
-        )
+        .setColor(0x0099ff)
+        .setAuthor({
+          name: member.user.tag,
+          iconURL: member.user.avatarURL({ dynamic: true, size: 512 }),
+        })
         .setThumbnail(member.user.avatarURL({ dynamic: true, size: 512 }))
         .setDescription(
-          `
-      Welcome ${member} to the **${member.guild.name}**!\n
-      Account Created: <t:${parseInt(member.user.createdTimestamp / 1000)}:R>\n
-      Latest Member Count: **${member.guild.memberCount}**`
+          `Welcome ${member} to **${
+            member.guild.name
+          }**!\nAccount Created: <t:${parseInt(
+            member.user.createdTimestamp / 1000
+          )}:R>\nLatest Member Count: **${member.guild.memberCount}**`
         )
-        .setFooter(`ID: ${member.user.id}`);
+        .setFooter({
+          text: `ID: ${member.user.id}`,
+        });
 
       Welcomer.send({ embeds: [Welcome] });
     }
