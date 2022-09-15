@@ -4,8 +4,6 @@ const {
   Partials,
   Collection,
 } = require("discord.js");
-const { Manager } = require("erela.js");
-const Spotify = require("erela.js-spotify");
 const { Guilds, GuildMembers, GuildMessages, GuildVoiceStates } =
   GatewayIntentBits;
 const { User, Message, GuildMember, ThreadMember } = Partials;
@@ -14,6 +12,10 @@ const client = new Client({
   intents: [Guilds, GuildMembers, GuildMessages, GuildVoiceStates],
   partials: [User, Message, GuildMember, ThreadMember],
 });
+
+const { Manager } = require("erela.js");
+const Spotify = require("erela.js-spotify");
+const { AppleMusic } = require("better-erela.js-apple");
 
 const { loadEvents } = require("./Handlers/eventHandler");
 
@@ -45,6 +47,8 @@ client.manager = new Manager({
       clientID,
       clientSecret,
     }),
+
+    new AppleMusic(),
   ],
 });
 

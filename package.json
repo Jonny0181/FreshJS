@@ -21,6 +21,7 @@
     "@discordjs/opus": "^0.8.0",
     "@distube/spotify": "^1.4.2",
     "ascii-table": "^0.0.9",
+    "better-erela.js-apple": "^1.0.5",
     "discord.js": "^14.3.0",
     "distube": "^4.0.3",
     "erela.js": "^2.3.3",
