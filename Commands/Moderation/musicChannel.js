@@ -5,7 +5,7 @@ const {
   ActionRowBuilder,
   ButtonBuilder,
 } = require("discord.js");
-const Config = require("../../Schemas/freshChannel");
+const freshChannel = require("../../Schemas/freshChannel");
 
 module.exports = {
   developer: true,
@@ -19,15 +19,15 @@ module.exports = {
    */
   execute(interaction) {
     const { guild, channel, user } = interaction;
-    const data = Config.findOne({ guildID: guild.id });
-    if (!data["channelID"]) {
+    const data = freshChannel.findOne({ guildID: guild.id });
+    if (!data) {
       return interaction.reply({
-        content: "Music channel is not setup.",
+        content: "This guild is not setup to use the music channel.",
       });
     } else {
       console.log(data);
       return interaction.reply({
-        content: "Check console.",
+        content: `Check console. Message ID: \`${data["message"]}\``,
       });
     }
   },

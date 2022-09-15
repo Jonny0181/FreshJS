@@ -9,7 +9,9 @@ module.exports = {
     loadCommands(client);
 
     const { connect } = require("mongoose");
-    connect(client.config.database.uri).then(
+    connect(client.config.database.uri, {
+      dbName: "alpha",
+    }).then(
       () => client.manager.init(client.user.id),
       console.log("The client is now connected to the database.")
     );

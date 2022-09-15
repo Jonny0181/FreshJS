@@ -1,27 +1,24 @@
 const { Schema, SchemaTypes, model } = require("mongoose");
-const { String, Boolean } = SchemaTypes;
 
-const freshChannelConfigSchema = new Schema({
-  guildID: {
-    type: String,
-    require: true,
-    unique: true,
-  },
-  channelID: {
-    type: String,
-    require: true,
-    unique: true,
-  },
-  messageID: {
-    type: String,
-    require: true,
-    unique: true,
-  },
-  toggle: {
-    type: Boolean,
-    require: true,
-    unique: true,
-  },
-});
+const reqString = {
+  type: String,
+  required: true,
+};
 
-module.exports = model("freshChannelConfig", freshChannelConfigSchema);
+const schema = new Schema(
+  {
+    guildID: reqString,
+    channelID: reqString,
+    messageID: reqString,
+    toggle: {
+      type: SchemaTypes.Boolean,
+      required: true,
+    },
+  },
+  {
+    versionKey: false,
+    autoIndex: false,
+  }
+);
+
+module.exports = model("freshChannel", schema, "fresh_channel");
