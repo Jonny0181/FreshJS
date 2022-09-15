@@ -7,7 +7,7 @@ const reqString = {
 
 const schema = new Schema(
   {
-    guildID: reqString,
+    _id: reqString,
     channelID: reqString,
     messageID: reqString,
     toggle: {

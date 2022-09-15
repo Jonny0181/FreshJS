@@ -19,7 +19,7 @@ module.exports = {
    */
   execute(interaction) {
     const { guild, channel, user } = interaction;
-    const data = freshChannel.findOne({ guildID: guild.id });
+    const data = freshChannel.findOne({ _id: guild.id });
     if (!data) {
       return interaction.reply({
         content: "This guild is not setup to use the music channel.",
