@@ -1,9 +1,5 @@
 async function loadEvents(client) {
   const { loadFiles } = require("../Functions/fileLoader");
-  const ascii = require("ascii-table");
-  const table = new ascii()
-    .setHeading("Events", "Status")
-    .setTitle("Loaded Events:");
 
   await client.events.clear();
 
@@ -22,10 +18,7 @@ async function loadEvents(client) {
       if (event.once) client.once(event.name, execute);
       else client.on(event.name, execute);
     }
-
-    table.addRow(event.name, "Loaded.");
   });
-  return console.log(table.toString());
 }
 
 module.exports = { loadEvents };
