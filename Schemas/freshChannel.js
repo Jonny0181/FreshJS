@@ -1,7 +1,7 @@
 const { Schema, SchemaTypes, model } = require("mongoose");
 
 const reqString = {
-  type: String,
+  type: SchemaTypes.String,
   required: true,
 };
 
@@ -21,4 +21,19 @@ const schema = new Schema(
   }
 );
 
-module.exports = model("freshChannel", schema, "fresh_channel");
+const Model = model("fresh_channel", schema);
+
+module.exports = {
+  model: model("fresh_channel", schema),
+  add: async (guild, channel, message, toggle) => {
+    if (!guild) {
+      throw new Error("Guild is undefined.");
+    }
+    await new Model({
+      _id: guild.id,
+      channelID: channel.id,
+      messageID: message.id,
+      toggle: toggle,
+    }).save();
+  },
+};

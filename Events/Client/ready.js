@@ -1,4 +1,5 @@
 const { loadCommands } = require("../../Handlers/commandHandler");
+const { loadButtons } = require("../../Handlers/buttonHandler");
 
 module.exports = {
   name: "ready",
@@ -7,6 +8,7 @@ module.exports = {
     console.log("The client is ready!");
 
     loadCommands(client);
+    loadButtons(client);
 
     const { connect } = require("mongoose");
     connect(client.config.database.uri, {
