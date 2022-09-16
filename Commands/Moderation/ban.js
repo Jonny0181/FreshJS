@@ -17,12 +17,6 @@ module.exports = {
     )
     .addStringOption((option) =>
       option
-        .setName("reason")
-        .setDescription("The reason why you are banning this user.")
-        .setRequired(true)
-    )
-    .addStringOption((option) =>
-      option
         .setName("messages")
         .setDescription("The amount of message history you want to delete.")
         .setRequired(true)
@@ -30,6 +24,11 @@ module.exports = {
           { name: "Don't delete any.", value: "0" },
           { name: "Previous 7 days.", value: "7" }
         )
+    )
+    .addStringOption((option) =>
+      option
+        .setName("reason")
+        .setDescription("The reason why you are banning this user.")
     ),
   /**
    *
@@ -46,7 +45,10 @@ module.exports = {
       });
     }
 
-    const reason = options.getString("reason");
+    let reason = options.getString("reason");
+    if (!reason) {
+      reason = "No reason provided.";
+    }
     if (reason.length > 512) {
       return interaction.reply({
         content: "The reason cannot exceed 512 characters.",

@@ -10,18 +10,32 @@ module.exports = {
     if (!interaction.isChatInputCommand()) return;
 
     const command = client.commands.get(interaction.command.name);
-    if (!command)
+    if (!command) {
       return interaction.reply({
         content: "This command is outdated!",
         ephemeral: true,
       });
+    }
 
-    if (command.developer && interaction.user.id !== "827940585201205258")
+    if (command.developer && interaction.user.id !== "827940585201205258") {
       return interaction.reply({
         content: "This command is only avaliable to the developer!",
         ephemeral: true,
       });
+    }
 
-    command.execute(interaction, client);
+    const subCommand = interaction.options.getSubcommand();
+    if (subCommand) {
+      const subCommandFile = client.subCommands.get(
+        `${interaction.commandName}.${subCommand}`
+      );
+      if (!subCommandFile) {
+        return interaction.reply({
+          content: "This subcommand is outdated!",
+          ephemeral: true,
+        });
+      }
+      subCommandFile.execute(interaction, client);
+    } else command.execute(interaction, client);
   },
 };
