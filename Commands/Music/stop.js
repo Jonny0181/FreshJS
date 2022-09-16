@@ -14,7 +14,7 @@ module.exports = {
    * @param {Client} client
    */
   async execute(interaction, client) {
-    const { guild, member } = interaction;
+    const { guild, member, channel } = interaction;
 
     const player = client.manager.get(guild.id);
 

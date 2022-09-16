@@ -9,6 +9,7 @@ module.exports = {
    * @param {Client} client
    */
   execute(interaction, client) {
+    client.removeAllListeners();
     loadEvents(client);
     interaction.reply({
       content: "Reloaded events!",
