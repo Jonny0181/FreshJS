@@ -3,9 +3,9 @@ const {
   SlashCommandBuilder,
   Client,
 } = require("discord.js");
-const { execute } = require("../../Events/Client/ready");
 
 module.exports = {
+  category: "utility",
   data: new SlashCommandBuilder()
     .setName("ping")
     .setDescription("Will respond with pong!"),

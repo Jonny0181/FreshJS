@@ -5,6 +5,7 @@ const {
 } = require("discord.js");
 
 module.exports = {
+  category: "music",
   data: new SlashCommandBuilder()
     .setName("repeat")
     .setDescription(

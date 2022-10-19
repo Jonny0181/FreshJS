@@ -3,8 +3,11 @@ const {
   ChatInputCommandInteraction,
   EmbedBuilder,
 } = require("discord.js");
+const ConsoleLogger = require("../../Handlers/consoleLogger");
+const logger = new ConsoleLogger();
 
 module.exports = {
+  category: "music",
   data: new SlashCommandBuilder()
     .setName("play")
     .setDescription("Play a song.")
@@ -20,12 +23,12 @@ module.exports = {
    */
   async execute(interaction) {
     const { member, guild, channel } = interaction;
+    interaction.deferReply({ ephemeral: true });
 
     if (!member.voice.channel) {
-      return interaction.reply({
+      return interaction.followUp({
         content:
           "<:tickNo:697759586538749982> You need to join a voice channel first.",
-        ephemeral: true,
       });
     }
 
@@ -33,10 +36,9 @@ module.exports = {
 
     if (player && !guild.members.me.voice.channel) player.destroy();
     if (player && member.voice.channel !== guild.members.me.voice.channel) {
-      return interaction.reply({
+      return interaction.followUp({
         content:
           "<:tickNo:697759586538749982> You need to be in the same voice channel as me.",
-        ephemeral: true,
       });
     }
 
@@ -50,10 +52,9 @@ module.exports = {
       });
     } catch (err) {
       if (err.message === "No avaliable nodes.") {
-        return interaction.reply({
+        return interaction.followUp({
           content:
             "<:tickNo:697759586538749982> No avaliable nodes, try again later.",
-          ephemeral: true,
         });
       }
     }
@@ -71,11 +72,10 @@ module.exports = {
         throw res.exception;
       }
     } catch (err) {
-      console.log(err);
-      return interaction.reply({
+      logger.error(err.message);
+      return interaction.followUp({
         content:
           "<:tickNo:697759586538749982> There was an error while searching for your song.",
-        ephemeral: true,
       });
     }
 
@@ -85,9 +85,8 @@ module.exports = {
     switch (res.loadType) {
       case "NO_MATCHES": {
         if (!player.queue.current) player.destroy();
-        return interaction.reply({
+        return interaction.followUp({
           content: "<:tickNo:697759586538749982> Nothing was found.",
-          ephemeral: true,
         });
       }
       case "TRACK_LOADED": {
@@ -95,9 +94,8 @@ module.exports = {
         player.queue.add(track);
         if (!player.playing && !player.paused && !player.queue.size) {
           player.play();
-          return interaction.reply({
+          return interaction.followUp({
             content: "<:tickYes:697759553626046546> Added the song to queue.",
-            ephemeral: true,
           });
         }
         embed
@@ -106,9 +104,8 @@ module.exports = {
           .setFooter({ text: `Requested By: ${track.requester.tag}` });
         if (typeof track.displayThumbnail === "function")
           embed.setThumbnail(track.displayThumbnail("hqdefault"));
-        return interaction.reply({
+        return interaction.followUp({
           embeds: [embed],
-          ephemeral: true,
         });
       }
       case "PLAYLIST_LOADED": {
@@ -129,9 +126,8 @@ module.exports = {
             inline: true,
           })
           .setFooter({ text: `Requested By: ${res.tracks[0].requester.tag}` });
-        return interaction.reply({
+        return interaction.followUp({
           embeds: [embed],
-          ephemeral: true,
         });
       }
       case "SEARCH_RESULT": {
@@ -144,9 +140,8 @@ module.exports = {
           .setAuthor({ name: "Added Song to queue" })
           .setDescription(`${track.title}\n${track.uri}`)
           .setFooter({ text: `Requested By: ${track.requester.tag}` });
-        return interaction.reply({
+        return interaction.followUp({
           embeds: [embed],
-          ephemeral: true,
         });
       }
     }

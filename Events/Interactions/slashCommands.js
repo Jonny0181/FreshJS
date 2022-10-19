@@ -9,7 +9,14 @@ module.exports = {
   execute(interaction, client) {
     if (!interaction.isChatInputCommand()) return;
 
-    const command = client.commands.get(interaction.command.name);
+    try {
+      command = client.commands.get(interaction.command.name);
+    } catch {
+      return interaction.reply({
+        content: "This command is outdated!",
+        ephemeral: true,
+      });
+    }
     if (!command) {
       return interaction.reply({
         content: "This command is outdated!",

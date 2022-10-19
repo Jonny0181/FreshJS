@@ -1,5 +1,7 @@
 const client = require("../../index");
+const ConsoleLogger = require("../../Handlers/consoleLogger");
+const logger = new ConsoleLogger();
 
 client.manager.on("nodeConnect", (node) => {
-  console.log(`Node "${node.options.identifier}" connected.`);
+  logger.success(`Node "${node.options.identifier}" connected.`);
 });

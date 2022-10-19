@@ -6,6 +6,7 @@ const {
 } = require("discord.js");
 
 module.exports = {
+  category: "moderation",
   data: new SlashCommandBuilder()
     .setName("purge")
     .setDescription(

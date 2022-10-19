@@ -5,6 +5,7 @@ const {
 } = require("discord.js");
 
 module.exports = {
+  category: "moderation",
   data: new SlashCommandBuilder()
     .setName("kick")
     .setDescription("Kick a user from the server.")

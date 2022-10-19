@@ -4,22 +4,16 @@ const {
   Partials,
   Collection,
 } = require("discord.js");
-const {
-  Guilds,
-  GuildMembers,
-  GuildMessages,
-  GuildVoiceStates,
-  MessageContent,
-} = GatewayIntentBits;
 const { User, Message, GuildMember, ThreadMember } = Partials;
 
 const client = new Client({
   intents: [
-    Guilds,
-    GuildMembers,
-    GuildMessages,
-    GuildVoiceStates,
-    MessageContent,
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.MessageContent,
   ],
   partials: [User, Message, GuildMember, ThreadMember],
 });
@@ -38,29 +32,18 @@ client.buttons = new Collection();
 
 loadEvents(client);
 
-const nodes = [
-  {
-    host: "localhost",
-    password: "youshallnotpass",
-    port: 2333,
-  },
-];
-
-const clientID = client.config.spotify.id;
-const clientSecret = client.config.spotify.secret;
 client.manager = new Manager({
-  nodes,
+  nodes: client.config.lavalinkNodes,
   send: (id, payload) => {
     const guild = client.guilds.cache.get(id);
     if (guild) guild.shard.send(payload);
   },
   plugins: [
-    new Spotify({
-      clientID,
-      clientSecret,
-    }),
-
     new AppleMusic(),
+    new Spotify({
+      clientID: client.config.spotify.id,
+      clientSecret: client.config.spotify.secret,
+    }),
   ],
 });
 

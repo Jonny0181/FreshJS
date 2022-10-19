@@ -1,16 +1,16 @@
 const {
-  ChatInputCommandInteraction,
   Client,
-  SlashCommandBuilder,
+  ChatInputCommandInteraction,
+  PermissionFlagsBits,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  EmbedBuilder,
 } = require("discord.js");
-const ConsoleLogger = require("../../Handlers/consoleLogger");
-const logger = new ConsoleLogger();
+const freshChannel = require("../../Schemas/freshChannel");
 
 module.exports = {
-  category: "music",
-  data: new SlashCommandBuilder()
-    .setName("stop")
-    .setDescription("Stops the music and destroys the player."),
+  id: "stopPlayer",
   /**
    *
    * @param {ChatInputCommandInteraction} interaction
@@ -18,7 +18,6 @@ module.exports = {
    */
   async execute(interaction, client) {
     const { guild, member, channel } = interaction;
-
     const player = client.manager.get(guild.id);
 
     if (!player) {
@@ -57,6 +56,35 @@ module.exports = {
       } else {
         logger.error(error);
       }
+    }
+
+    const data = await freshChannel.model.findOne({ _id: channel.guild.id });
+    if (channel.id == data.channelID) {
+      const playerMsg = await channel.messages.fetch({
+        around: data.messageID,
+        limit: 1,
+      });
+
+      const buttonRow = new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+          .setCustomId("startFav")
+          .setLabel("Start My Favorites")
+          .setStyle(ButtonStyle.Success)
+      );
+
+      const embed = new EmbedBuilder()
+        .setAuthor({ iconURL: client.user.avatarURL(), name: "Fresh Music" })
+        .setColor("Aqua")
+        .setDescription(
+          "Send a song link or query to start playing music!\nOr click the button to start you favorite songs!"
+        )
+        .setImage("https://i.imgur.com/VIYaATs.jpg");
+
+      player.destroy();
+      playerMsg.first().edit({
+        embeds: [embed],
+        components: [buttonRow],
+      });
     }
 
     player.destroy();

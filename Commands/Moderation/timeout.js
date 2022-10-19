@@ -4,8 +4,11 @@ const {
   ChatInputCommandInteraction,
   EmbedBuilder,
 } = require("discord.js");
+const ConsoleLogger = require("../../Handlers/consoleLogger");
+const logger = new ConsoleLogger();
 
 module.exports = {
+  category: "moderation",
   data: new SlashCommandBuilder()
     .setName("timeout")
     .setDescription("Puts a user in timeout.")
@@ -59,7 +62,7 @@ module.exports = {
     try {
       await target.send({ embeds: [embed] });
     } catch {
-      console.log(
+      logger.error(
         `Timed out ${target.displayName} in ${guild.name}..but their dm's are off.`
       );
     }

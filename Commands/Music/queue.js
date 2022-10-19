@@ -6,6 +6,7 @@ const {
 } = require("discord.js");
 
 module.exports = {
+  category: "music",
   data: new SlashCommandBuilder()
     .setName("queue")
     .setDescription("Shows the current music queue.")

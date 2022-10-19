@@ -1,14 +1,11 @@
 const {
+  PermissionFlagsBits,
   ChatInputCommandInteraction,
-  SlashCommandBuilder,
   Client,
 } = require("discord.js");
 
 module.exports = {
-  category: "music",
-  data: new SlashCommandBuilder()
-    .setName("resume")
-    .setDescription("Resumes the current music."),
+  id: "skipTrack",
   /**
    *
    * @param {ChatInputCommandInteraction} interaction
@@ -16,7 +13,6 @@ module.exports = {
    */
   execute(interaction, client) {
     const { guild, member } = interaction;
-
     const player = client.manager.get(guild.id);
 
     if (!player) {
@@ -43,16 +39,16 @@ module.exports = {
       });
     }
 
-    if (!player.paused) {
+    if (!player.queue.current) {
       return interaction.reply({
-        content: "<:tickNo:697759586538749982> The player is not paused.",
+        content: "<:tickNo:697759586538749982> There is nothing playing.",
         ephemeral: true,
       });
     }
 
-    player.pause(false);
+    player.stop();
     return interaction.reply({
-      content: "<:tickYes:697759553626046546> Resumed.",
+      content: "<:tickYes:697759553626046546> Skipped.",
       ephemeral: true,
     });
   },

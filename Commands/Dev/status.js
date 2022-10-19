@@ -9,6 +9,7 @@ const { connection } = require("mongoose");
 require("../../Events/Client/ready");
 
 module.exports = {
+  category: "dev",
   data: new SlashCommandBuilder()
     .setName("status")
     .setDescription(
@@ -39,6 +40,7 @@ module.exports = {
           name: "Database:",
           value: dbStatus,
         },
+        { name: "Contributors:", value: "<@!927200461377929246>" },
       ]);
 
     return interaction.reply({

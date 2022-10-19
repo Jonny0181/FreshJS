@@ -7,8 +7,8 @@ const {
 module.exports = {
   category: "music",
   data: new SlashCommandBuilder()
-    .setName("resume")
-    .setDescription("Resumes the current music."),
+    .setName("shuffle")
+    .setDescription("Shuffles the current queue that is playing."),
   /**
    *
    * @param {ChatInputCommandInteraction} interaction
@@ -43,16 +43,16 @@ module.exports = {
       });
     }
 
-    if (!player.paused) {
+    if (!player.queue.current) {
       return interaction.reply({
-        content: "<:tickNo:697759586538749982> The player is not paused.",
+        content: "<:tickNo:697759586538749982> There is nothing playing.",
         ephemeral: true,
       });
     }
 
-    player.pause(false);
+    player.queue.shuffle();
     return interaction.reply({
-      content: "<:tickYes:697759553626046546> Resumed.",
+      content: "<:tickYes:697759553626046546> Shuffled.",
       ephemeral: true,
     });
   },
